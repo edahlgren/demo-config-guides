@@ -1,0 +1,118 @@
+<html lang="en">'
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400">',
+    <style type="text/css">
+body {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: .25px;
+    color: #242424;
+    text-align: left;
+    line-height: 25px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 16px;
+    font-family: 'Source Code Pro', monospace;
+    margin: 0px;
+    margin-top: 36px;
+    font-weight: bold;
+}
+
+p, ul, ol {
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+p {
+  margin-top: 8px;
+}
+
+a {
+    text-decoration: underline;
+    color: #242424;
+}
+
+p {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+pre {
+    background-color: #f6f8fa;
+    border: none;
+    padding: 16px;
+    overflow: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    color: #242424;
+    line-height: 1.7 !important;
+}
+
+.guide {
+    width: 90%;
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+    </style>
+  </head>
+  <body>
+    <div class="guide"><h1>(configure help) - Configure this demo</h1>
+<h2>Quick reference</h2>
+<p>View the entire configuration</p>
+<pre><code>$ cat /demo/demo.yml
+</code></pre>
+<p>Check your changes to the configuration file</p>
+<pre><code>$ demo configure --check
+</code></pre>
+<h2>Summary</h2>
+<p>The 'demo configure' command does a lot of things. This is where we talk about them in greater detail so people know how to use it.</p>
+<h2>Overview</h2>
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>Format</td><td>YAML</td></tr>
+<tr><td>Location</td><td>/demo/demo.yml</td></tr>
+</tbody>
+</table>
+<h3>Sections</h3>
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>title</td><td>Title of the demo</td></tr>
+<tr><td>run</td><td>How to execute the demo</td></tr>
+<tr><td>build</td><td>How to build the demo</td></tr>
+<tr><td>io</td><td>Input and output of the demo (files)</td></tr>
+<tr><td>args</td><td>Command-line arguments for configuring the demo</td></tr>
+<tr><td>source</td><td>Source code of the demo</td></tr>
+<tr><td>data</td><td>Included data sets for experimenting</td></tr>
+<tr><td>papers</td><td>Published papers that describe the demo</td></tr>
+</tbody>
+</table>
+<h2>More details</h2>
+<p>Learn about a section</p>
+<pre><code>$ demo configure &lt;section&gt;
+</code></pre>
+<p>For example</p>
+<pre><code>$ demo configure run
+$ demo configure args
+</code></pre>
+<h2>YAML</h2>
+<p>This is a brief guide to the YAML file format.</p>
+</div>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+<html lang="en">'
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400">',
+    <style type="text/css">
+body {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: .25px;
+    color: #242424;
+    text-align: left;
+    line-height: 25px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 16px;
+    font-family: 'Source Code Pro', monospace;
+    margin: 0px;
+    margin-top: 36px;
+    font-weight: bold;
+}
+
+p, ul, ol {
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+p {
+  margin-top: 8px;
+}
+
+a {
+    text-decoration: underline;
+    color: #242424;
+}
+
+p {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+pre {
+    background-color: #f6f8fa;
+    border: none;
+    padding: 16px;
+    overflow: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    color: #242424;
+    line-height: 1.7 !important;
+}
+
+.guide {
+    width: 90%;
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+    </style>
+  </head>
+  <body>
+    <div class="guide"><h1>(configure run help) - Configure the 'run' section of this demo</h1>
+<h2>Quick reference</h2>
+<p>View the run configuration in</p>
+<pre><code>$ cat /demo/demo.yml 
+</code></pre>
+<p>Check the run configuration</p>
+<pre><code>$ demo configure run --check
+</code></pre>
+<h2>Layout</h2>
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><code>run:</code></td><td>How to execute the demo</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td><code>description:</code></td><td>Summary of what the demo does</td></tr>
+<tr><td></td><td>+ String</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td><code>configs:</code></td><td>Preconfigured ways to run the demo</td></tr>
+<tr><td></td><td>+ Array</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td><code>- name:</code></td><td>Name of the configuration</td></tr>
+<tr><td></td><td>+ String</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td><code>description:</code></td><td>Description of the configuration</td></tr>
+<tr><td></td><td>+ String</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td><code>script:</code></td><td>Path to a script that will execute this configuration</td></tr>
+<tr><td></td><td>+ String</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td></td><td>+ absolute-path</td></tr>
+<tr><td><code>examples:</code></td><td>Examples of command-line arguments</td></tr>
+<tr><td></td><td>+ Array</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td><code>- description:</code></td><td>Description of arguments</td></tr>
+<tr><td></td><td>+ String</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td><code>args:</code></td><td>List of command-line arguments</td></tr>
+<tr><td></td><td>+ Array</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+<tr><td><code>-</code></td><td>A command-line argument</td></tr>
+<tr><td></td><td>+ String</td></tr>
+<tr><td></td><td>+ non-empty</td></tr>
+</tbody>
+</table>
+<h2>Example</h2>
+<pre><code>run:
+  
+  description: Nuke a planet
+  
+  configs:
+    - name: mars
+      description: Nuke the planet Mars
+      script: &amp;#x2F;demo&amp;#x2F;run&amp;#x2F;mars.sh
+      
+    - name: jupiter
+      description: Nuke the planet Jupiter
+      script: &amp;#x2F;demo&amp;#x2F;run&amp;#x2F;jupiter.sh
+      
+  examples:
+    - description: Send 5 nuclear missiles to Mars
+      args:
+        - &amp;#39;-n 5&amp;#39;
+        - &amp;#39;-i &amp;#x2F;root&amp;#x2F;data&amp;#x2F;mars&amp;#x2F;coordinates.csv&amp;#39;
+        
+    - description: Nuke Jupiter and notify the UN
+      args:
+        - &amp;#39;--notify contact@un.org&amp;#39;
+        - &amp;#39;-i &amp;#x2F;root&amp;#x2F;data&amp;#x2F;jupiter&amp;#x2F;coordinates.csv&amp;#39;
+</code></pre>
+</div>
+  </body>
+</html>

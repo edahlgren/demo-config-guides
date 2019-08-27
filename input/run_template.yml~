@@ -1,0 +1,19 @@
+run:  
+  description:
+  configs:
+    - name:
+      description:
+      script:
+    - name:
+      description:
+      script:
+    - ...
+  examples:
+    - description:
+      args:
+        - arg
+        - ...
+    - description:
+      args:
+        - arg
+        - ...

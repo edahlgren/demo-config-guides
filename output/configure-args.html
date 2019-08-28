@@ -1,0 +1,183 @@
+<html lang="en">'
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400">',
+    <style type="text/css">
+body {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: .25px;
+    color: #242424;
+    text-align: left;
+    line-height: 25px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 16px;
+    font-family: 'Source Code Pro', monospace;
+    margin: 0px;
+    margin-top: 36px;
+    font-weight: bold;
+}
+
+p, ul, ol {
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+p {
+  margin-top: 8px;
+}
+
+a {
+    text-decoration: underline;
+    color: #242424;
+}
+
+p {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+pre {
+    background-color: #f6f8fa;
+    border: none;
+    padding: 16px;
+    overflow: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    color: #242424;
+    line-height: 1.7 !important;
+}
+
+.guide {
+    width: 90%;
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+    </style>
+  </head>
+  <body>
+    <div class="guide"><h1>(configure args help) - Configure the 'args' section of this demo</h1>
+<h2>Quick reference</h2>
+<p>View this section</p>
+<pre><code>$ cat /demo/demo.yml 
+</code></pre>
+<p>Check this section</p>
+<pre><code>$ demo configure args --check
+</code></pre>
+<h2>Summary</h2>
+<p>The args section contains information on the command-line arguments that can be used to configure the execution of the demo.</p>
+<h2>Requirements</h2>
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>args:</pre></td><td>Command-line arguments for configuring the demo</td></tr>
+<tr><td></td><td><ul><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>  choose_one:</pre></td><td>Groups of arguments, where you can only choose one commandline argument in the group</td></tr>
+<tr><td></td><td><ul><li>Must be an array</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>    - description: </pre></td><td>Description of the options</td></tr>
+<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>      required: </pre></td><td>Whether one of these options must be specified</td></tr>
+<tr><td></td><td><ul><li>Must be 'true' or 'false'</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>      choices:</pre></td><td>List of options</td></tr>
+<tr><td></td><td><ul><li>Must be an array</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>        - description: </pre></td><td>A description of the option</td></tr>
+<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>          flags:</pre></td><td>Choose this option using one of these flags</td></tr>
+<tr><td></td><td><ul><li>Must be an array</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>            - </pre></td><td>A flag</td></tr>
+<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>          default: </pre></td><td>Whether or not this option is used by the default</td></tr>
+<tr><td></td><td><ul><li>Must be 'true' or 'false'</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>  choose_any:</pre></td><td>Use any of these commandline arguments</td></tr>
+<tr><td></td><td><ul><li>Must be an array</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>    - description: </pre></td><td>Description of an option</td></tr>
+<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>      flags:</pre></td><td>Choose this option using one of these flags</td></tr>
+<tr><td></td><td><ul><li>Must be an array</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>        - </pre></td><td>A flag</td></tr>
+<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>      required: </pre></td><td>Whether this option must be specified</td></tr>
+<tr><td></td><td><ul><li>Must be 'true' or 'false'</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>      default: </pre></td><td>The default value of this option</td></tr>
+<tr><td></td><td><ul><li>No requirements</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>      example: </pre></td><td>An example of this option with a value</td></tr>
+<tr><td></td><td><ul><li>Must be a string</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+</tbody>
+</table>
+<h2>Example</h2>
+<pre><code>args:
+  choose_one:    
+    - description: Type of missile technology to use
+      required: false
+      choices:
+        - description: Russian-designed missile
+          flags:
+            - &quot;--russian&quot;
+          default: true
+
+        - description: Korean-designed missile
+          flags:
+            - &quot;--korean&quot;
+          default: false
+            
+  choose_any:
+    - description: Number of missiles to fire
+      flags:
+        - &quot;--num&quot;
+        - &quot;-n&quot;
+      required: false
+      default: 1
+      example: &quot;-n 5&quot;
+        
+    - description: &gt;-
+        Path to a CSV file containing the coordinates of a planet
+      flags:
+        - &quot;--input&quot;
+        - &quot;-i&quot;
+      required: true
+      example: &quot;-i /root/data/mars/coordinates.csv&quot;
+
+    - description: Send an email with launch statistics
+      flags:
+        - &quot;--notify&quot;
+      required: false
+      example: &quot;--notify contact@un.org&quot;
+</code></pre>
+<h2>Best practices</h2>
+<ul>
+<li>Include examples for arguments that expect string values</li>
+<li>Use the choose_one section only for mutually exclusive options</li>
+</ul>
+</div>
+  </body>
+</html>

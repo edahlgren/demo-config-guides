@@ -34,7 +34,9 @@ function main() {
         }
     };
 
-    convert.makeDocs(config);
+    convert.makeDocs(config, {
+        minColumnPad: 5
+    });
 }
 
 main();

@@ -1,0 +1,102 @@
+<html lang="en">'
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400">',
+    <style type="text/css">
+body {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: .25px;
+    color: #242424;
+    text-align: left;
+    line-height: 25px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 16px;
+    font-family: 'Source Code Pro', monospace;
+    margin: 0px;
+    margin-top: 36px;
+    font-weight: bold;
+}
+
+p, ul, ol {
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+p {
+  margin-top: 8px;
+}
+
+a {
+    text-decoration: underline;
+    color: #242424;
+}
+
+p {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+pre {
+    background-color: #f6f8fa;
+    border: none;
+    padding: 16px;
+    overflow: auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    color: #242424;
+    line-height: 1.7 !important;
+}
+
+.guide {
+    width: 90%;
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+    </style>
+  </head>
+  <body>
+    <div class="guide"><h1>(configure title help) - Configure the 'title' section of this demo</h1>
+<h2>Quick reference</h2>
+<p>View this section</p>
+<pre><code>$ cat /demo/demo.yml 
+</code></pre>
+<p>Check this section</p>
+<pre><code>$ demo configure title --check
+</code></pre>
+<h2>Summary</h2>
+<p>The title section contains a short description of the demo, which will appear at the top of its generated documentation</p>
+<h2>Requirements</h2>
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td></td><td><hr></td></tr>
+<tr><td><pre>title: </pre></td><td>Title of the demo</td></tr>
+<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td></td><td><hr></td></tr>
+</tbody>
+</table>
+<h2>Example</h2>
+<pre><code>title: Nuclear planetary destruction
+</code></pre>
+<h2>Best practices</h2>
+<ul>
+<li>Keep your title short (3-6 words)</li>
+<li>Include words that highlight what's unusual about your demo</li>
+</ul>
+</div>
+  </body>
+</html>

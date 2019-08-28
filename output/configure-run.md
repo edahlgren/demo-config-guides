@@ -16,7 +16,7 @@ $ demo configure run --check
 
 ## Summary
 
-The run section contains information on executing the demo, so someone can execute it automatically using preconfigured scripts or manually using command-line arguments
+The run section contains information on executing the demo, so someone can execute it automatically using preconfigured scripts or manually using command-line arguments.
 
 ## Requirements
 

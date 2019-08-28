@@ -1,0 +1,10 @@
+extra:
+  description: >-
+    The papers section contains information about research papers that
+    describe functionality of the demo and that are packaged in the
+    demo for easy access.
+    
+  best_practices:
+    - "List up to 10 authors (first 10)"
+    - "Avoid packaging papers that are not published in an open access journal"
+    - "If a paper isn't freely available, contact the author for help"

@@ -1,0 +1,9 @@
+extra:
+  description: >-
+    The args section contains information on the command-line
+    arguments that can be used to configure the execution of
+    the demo.
+    
+  best_practices:
+    - "Include examples for arguments that expect string values"
+    - "Use the choose_one section only for mutually exclusive options"

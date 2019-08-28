@@ -19,7 +19,7 @@ const wrap = require('word-wrap');
 // out.html
 // out.text
 
-function makeDocs(config) {
+function makeDocs(config, options) {
     // Create the markdown
     var md = renderMarkdown(config);
     fs.writeFileSync(config.out.md, md);
@@ -33,8 +33,15 @@ function makeDocs(config) {
     fs.writeFileSync(config.out.html, html);
     console.log("Wrote", config.out.html);
 
+    if (!options)
+        options = {
+            separateTwoColumns: false,
+            dotsBetweenColumns: false,
+            minColumnPad: 2
+        };
+
     // Create the text file
-    var text = renderText(innerHtml);
+    var text = renderText(innerHtml, options);
     fs.writeFileSync(config.out.text, text);
     console.log("Wrote", config.out.text);
 }
@@ -94,7 +101,7 @@ function renderHtml(config, innerHtml) {
     return html;
 }
 
-function renderText(html) {
+function renderText(html, extraOptions) {
     var buffer = '';
 
     // Write heading
@@ -103,7 +110,7 @@ function renderText(html) {
     buffer += empty.repeat(60) + "scroll to view all\n";
 
     try {
-        buffer += __renderText(html);
+        buffer += __renderText(html, extraOptions);
     } catch (error) {
         throw error;
     }
@@ -111,7 +118,7 @@ function renderText(html) {
     return buffer;
 }
 
-function __renderText(html) {
+function __renderText(html, extraOptions) {
     var buffer = '';
     
     // Only parses headings, paragraphs, and tables. Code is
@@ -131,7 +138,11 @@ function __renderText(html) {
         // This doesn't seem to work properly
         wordwrap: 70,
 
-        unorderedListItemPrefix: '- ',
+        unorderedListItemPrefix: '+ ',
+
+        spaceTwo: extraOptions.separateTwoColumns,
+        drawDots: extraOptions.dotsBetweenColumns,
+        minColumnPad: extraOptions.minColumnPad,
         
         format: {
             heading: function(elem, fn, options) {
@@ -191,8 +202,8 @@ function __renderText(html) {
 }
 
 var header = '';
-function formatIndent(isHeader) {
-    if (isHeader) {
+function formatIndent(inHeader) {
+    if (inHeader) {
         switch (header) {
         case 'h1':
             return '  ';
@@ -218,6 +229,23 @@ function formatIndent(isHeader) {
         return '        ';
     default:
         return '  ';
+    }
+}
+
+function isHeader(elem) {
+    if (elem.type !== "tag")
+        return false;
+    
+    switch(elem.name.toLowerCase()) {
+    case 'h1':
+    case 'h2':
+    case 'h3':
+    case 'h4':
+    case 'h5':
+    case 'h6':
+        return true;
+    default:
+        return false;
     }
 }
 
@@ -250,11 +278,24 @@ function formatHeading(elem, fn, options) {
 }
 
 function formatParagraph(elem, fn, options) {
+    let prev = elem.prev;
+    while (prev) {
+        if (prev.type === "text" &&
+            prev.data.trim().length == 0) {
+            prev = prev.prev;
+            continue;
+        }
+        break;
+    }
+
+    let firstAfterHeader = prev && isHeader(prev);
+    let code = isCode(elem, options);
+    
     let text = fn(elem.children, options);
     let lines = text.split('\n');
     let _indent = formatIndent(false);
-    
-    if (isCode(elem, options))
+
+    if (!firstAfterHeader && code)
         _indent += '  ';
 
     text = '';
@@ -262,16 +303,19 @@ function formatParagraph(elem, fn, options) {
         text += _indent + line + '\n';
     });
     
-    if (!isCode(elem, options))
+    if (!code)
         text += '\n';
     
     return text;
 }
 
 function isCode(elem, options) {
-    return (options.isInPre &&
-            elem.children.length == 1 &&
-            elem.children[0].name == 'code');
+    var result = (options.isInPre &&
+                  elem.children.length == 1 &&
+                  elem.children[0].name == 'code');
+    if (!result)
+        return false;
+    return result;
 }
 
 function formatBareHeading(elem, fn, options) {
@@ -308,7 +352,25 @@ function formatTable(elem, fn, options) {
                         break;
                         
                     case 'td':
+                        var isPre = (elem.children.length == 1 &&
+                                     elem.children[0].name === 'pre');
+                        var isList = (elem.children.length == 1 &&
+                                      elem.children[0].name === 'ul');
+                        var isHr = (elem.children.length == 1 &&
+                                      elem.children[0].name === 'hr');
+                        
                         let rawText = fn(elem.children, newOptions);
+                        if (isPre || isList)
+                            rawText = rawText.trimRight();
+
+                        if (isList)
+                            rawText = rawText.split('\n').map(function(item) {
+                                return '  ' + item;
+                            }).join('\n');
+                        
+                        if (isHr)
+                            rawText = "<hr>";
+                        
                         row.push(rawText);
                         break;
                     }
@@ -354,7 +416,10 @@ function tableToString(table, options) {
         return row.map(function(col) {
             if (col.startsWith('___'))
                 return 0;
-            return col.length;
+            let lines = col.split('\n').map(function(line) {
+                return line.length;
+            });
+            return max(lines);
         });
     });
     
@@ -364,6 +429,13 @@ function tableToString(table, options) {
     widths = widths.map(function(col) {
         return max(col);
     });
+
+    // Fill out remaining space
+    var onlyTwo = (widths.length == 2);
+    if (options.spaceTwo && onlyTwo) {
+        if ((widths[0] + widths[1]) < 90)
+            widths[0] = 90 - widths[1];
+    }
 
     // Build the table
     var text = '';
@@ -384,44 +456,66 @@ function tableToString(table, options) {
         let last = row.length - 1;
 
         // Handle row
+        var hasBreak = false;
         for (var j = 0; j < row.length; j++) {
             let col = row[j];            
             let width = widths[j];
 
+            var isBreak = (col === "<hr>");
+            if (isBreak)
+                col = " ";
+            hasBreak = hasBreak | isBreak;
+
+            var extraPadEnd = ' '.repeat(options.minColumnPad);
+            
             if (j < last) {
                 // Handle columns before last
-                let fmt = padEnd(col, width, ' ') + '   ';
+                let fmt = padEnd(col, width, ' ') + extraPadEnd;
+                if (options.drawDots && col.trim().length > 0)
+                    fmt = padEnd(col, width + extraPadEnd.length - 1, ' .') + ' ';
+                    
                 t += fmt;
                 firstLen += fmt.length;
                 continue;
             }
-            
+
             // Handle the last column specially
             let max = options.wordwrap - firstLen;
             if (max < 45)
                 max = 45;
 
-            // Handle simple case (no word wrap necessary)
-            if (col.length <= max) {
+            let prelines = col.split('\n');
+            let hasLines = prelines.length > 1;
+
+            // Handle simple case (no multi-line or wrap necessary)
+            if (!hasLines && col.length <= max) {
                 t += col;
                 break;
             }
 
+            let lines = [];
+            prelines.forEach(function(line) {
+                let sublines = wrap(line, { width: max, indent: '' }).split('\n');
+                sublines.forEach(function(subline) {
+                    lines.push(subline);
+                });
+            });
+
             // Get wrapped lines
-            let lines = wrap(col, { width: max, indent: '' }).split('\n');
+            //let lines = wrap(col, { width: max, indent: '' }).split('\n');
             
             // Handle the first
             t += lines[0];
             if (lines.length > 1) {
                 for (let l = 1; l < lines.length; l++) {
-                    t += '\n' + (' ').repeat(firstLen + 2) + lines[l];
+                    t += '\n' + (' ').repeat(firstLen) + lines[l];
                 }
             }
             break;
         }
 
         // Skip empty rows
-        if (t.trim().length == 0)
+        if (!hasBreak && t.trim().length == 0)
             continue;
 
         // Create inner table headings
@@ -459,10 +553,12 @@ function formatListItem(prefix, elem, fn, options) {
     }
     // Process sub elements.
     var text = fn(elem.children, options);
+    var indent = formatIndent(false);
+    
     // Replace all line breaks with line break + prefix spacing.
-    text = text.replace(/\n/g, '\n' + ' '.repeat(prefix.length));
+    text = text.replace(/\n/g, '\n' + indent + ' '.repeat(prefix.length));
     // Add first prefix and line break at the end.
-    return formatIndent(false) + prefix + text + '\n';
+    return formatIndent(false) + prefix + text + '\n\n';
 }
 
 module.exports = {

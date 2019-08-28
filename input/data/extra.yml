@@ -1,0 +1,10 @@
+extra:
+  description: >-
+    The data section contains information about included datasets
+    that are compatible with the demo, for executing a number of
+    experiments.
+    
+  best_practices:
+    - "Include 2-3 metadata statistics about each file to show differences"
+    - "Include the file format in the file description"
+    - "Use URLs from the source's website"

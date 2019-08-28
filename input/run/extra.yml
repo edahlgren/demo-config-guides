@@ -1,0 +1,10 @@
+extra:
+  description: >-
+    The run section contains information on executing the demo,
+    so someone can execute it automatically using preconfigured
+    scripts or manually using command-line arguments.
+    
+  best_practices:
+    - "Use the preconfigured scripts to show off the demo's range of functionality"
+    - "Keep the execution time of scripts and examples short (max 2-3 minutes)"
+    - "Use only 2-3 arguments at a time in command-line examples"

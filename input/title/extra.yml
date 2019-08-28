@@ -1,0 +1,8 @@
+extra:
+  description: >-
+    The title section contains a short description of the demo,
+    which will appear at the top of its generated documentation
+
+  best_practices:
+    - "Keep your title short (3-6 words)"
+    - "Include words that highlight what's unusual about your demo"

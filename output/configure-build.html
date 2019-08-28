@@ -67,16 +67,16 @@ pre {
     </style>
   </head>
   <body>
-    <div class="guide"><h1>(configure run help) - Configure the 'run' section of this demo</h1>
+    <div class="guide"><h1>(configure build help) - Configure the 'build' section of this demo</h1>
 <h2>Quick reference</h2>
 <p>View this section</p>
 <pre><code>$ cat /demo/demo.yml 
 </code></pre>
 <p>Check this section</p>
-<pre><code>$ demo configure run --check
+<pre><code>$ demo configure build --check
 </code></pre>
 <h2>Summary</h2>
-<p>The run section contains information on executing the demo, so someone can execute it automatically using preconfigured scripts or manually using command-line arguments</p>
+<p>The build section contains information on building the demo, so someone can build it automatically using preconfigured scripts or manually using command-line arguments.</p>
 <h2>Requirements</h2>
 <table>
 <thead>
@@ -84,13 +84,13 @@ pre {
 </thead>
 <tbody>
 <tr><td></td><td><hr></td></tr>
-<tr><td><pre>run:</pre></td><td>How to execute the demo</td></tr>
+<tr><td><pre>build:</pre></td><td>How to build the demo</td></tr>
 <tr><td></td><td><ul><li>Can't be missing or empty</li></ul></td></tr>
 <tr><td></td><td><hr></td></tr>
-<tr><td><pre>  description: </pre></td><td>Summary of what the demo does</td></tr>
-<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
+<tr><td><pre>  clean: </pre></td><td>A path to a script that removes old build artifacts</td></tr>
+<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li><li>Must be an absolute file path</li></ul></td></tr>
 <tr><td></td><td><hr></td></tr>
-<tr><td><pre>  configs:</pre></td><td>Preconfigured ways to run the demo</td></tr>
+<tr><td><pre>  configs:</pre></td><td>Preconfigured ways to build the demo</td></tr>
 <tr><td></td><td><ul><li>Must be an array</li><li>Can't be missing or empty</li></ul></td></tr>
 <tr><td></td><td><hr></td></tr>
 <tr><td><pre>    - name: </pre></td><td>Name of the configuration</td></tr>
@@ -102,50 +102,30 @@ pre {
 <tr><td><pre>      script: </pre></td><td>Path to a script that will execute this configuration</td></tr>
 <tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li><li>Must be an absolute file path</li></ul></td></tr>
 <tr><td></td><td><hr></td></tr>
-<tr><td><pre>  examples:</pre></td><td>Examples of command-line arguments</td></tr>
-<tr><td></td><td><ul><li>Must be an array</li><li>Can't be missing or empty</li></ul></td></tr>
-<tr><td></td><td><hr></td></tr>
-<tr><td><pre>    - description: </pre></td><td>Description of arguments</td></tr>
-<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
-<tr><td></td><td><hr></td></tr>
-<tr><td><pre>      args:</pre></td><td>List of command-line arguments</td></tr>
-<tr><td></td><td><ul><li>Must be an array</li><li>Can't be missing or empty</li></ul></td></tr>
-<tr><td></td><td><hr></td></tr>
-<tr><td><pre>        - </pre></td><td>A command-line argument</td></tr>
-<tr><td></td><td><ul><li>Must be a string</li><li>Can't be missing or empty</li></ul></td></tr>
-<tr><td></td><td><hr></td></tr>
 </tbody>
 </table>
 <h2>Example</h2>
-<pre><code>run:
-  
-  description: Nuke a planet
+<pre><code>build:  
+  clean: /demo/build/clean.sh
   
   configs:
-    - name: mars
-      description: Nuke the planet Mars
-      script: /demo/run/mars.sh
+    - name: default
+      description: Build the nuclear launcher with gcc
+      script: /demo/build/default.sh
       
-    - name: jupiter
-      description: Nuke the planet Jupiter
-      script: /demo/run/jupiter.sh
-      
-  examples:
-    - description: Send 5 nuclear missiles to Mars
-      args:
-        - '-n 5'
-        - '-i /root/data/mars/coordinates.csv'
-        
-    - description: Nuke Jupiter and notify the UN
-      args:
-        - '--notify contact@un.org'
-        - '-i /root/data/jupiter/coordinates.csv'
+    - name: optimized
+      description: Build the nuclear launcher at optimization level 3
+      script: /demo/build/optimized.sh
+
+    - name: debug
+      description: Build the nuclear launcher with debug symbols
+      script: /demo/build/debug.sh
 </code></pre>
 <h2>Best practices</h2>
 <ul>
-<li>Use the preconfigured scripts to show off the demo's range of functionality</li>
-<li>Keep the execution time of scripts and examples short (max 2-3 minutes)</li>
-<li>Use only 2-3 arguments at a time in command-line examples</li>
+<li>Use preconfigured scripts to execute optimized and debug builds</li>
+<li>Build scripts should show progress if they take longer than several seconds</li>
+<li>The clean script should remove <em>all</em> build artifacts</li>
 </ul>
 </div>
   </body>
